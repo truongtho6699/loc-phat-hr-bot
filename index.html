@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="vi">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lộc Phát HR — Trợ giúp Zalo Bot</title>
+<style>body{margin:0;background:#f3f6fa;color:#17243b;font:16px/1.6 system-ui,sans-serif}main{max-width:760px;margin:48px auto;padding:24px}section{background:white;padding:24px;border-radius:18px;margin:20px 0}h1{line-height:1.2}input,button{font:inherit;padding:12px;border-radius:10px;border:1px solid #cbd5e1}input{width:100%;box-sizing:border-box}button,a.cta{background:#0756b8;color:white;cursor:pointer;margin:8px 4px 0 0}a.cta{display:inline-block;padding:12px 18px;border-radius:10px;text-decoration:none}.muted{color:#52647b}.commands{display:flex;gap:8px;flex-wrap:wrap}#status{min-height:26px}code{overflow-wrap:anywhere}</style></head>
+<body><main><p class="muted">LỘC PHÁT HR</p><h1>Nhận thông báo.<br>Xử lý đơn đúng người.</h1><p>Bot gửi thông báo và hỗ trợ người có quyền duyệt đơn nhân sự.</p><a class="cta" href="https://zalo.me/s/2288715680697269235/">Mở Mini App Lộc Phát HR</a>
+<section><h2>Liên kết bot</h2><ol><li>Mở Mini App, vào <strong>Cá nhân → Liên kết Zalo Bot</strong>.</li><li>Nhập mật khẩu HR và lấy mã dùng một lần.</li><li>Sao chép lệnh liên kết rồi gửi trong cuộc trò chuyện riêng với bot.</li></ol><p class="muted">Không nhập mật khẩu, Bot Token hoặc mã liên kết vào trang này. Mã liên kết hết hạn sau 10 phút.</p></section>
+<section><h2>Sao chép lệnh</h2><label for="requestId">Mã đơn</label><input id="requestId" placeholder="Dán mã đơn từ thông báo bot" autocomplete="off" maxlength="100"><div class="commands"><button data-action="Đồng ý">Sao chép Đồng ý</button><button data-action="Không đồng ý">Sao chép Không đồng ý</button><button data-action="Xem chi tiết">Sao chép Xem chi tiết</button></div><p id="status" role="status" aria-live="polite"></p><p class="muted">Sau khi sao chép, dán và gửi cho bot. Nếu từ chối, bot yêu cầu bổ sung lý do. Trang này chỉ tạo văn bản; việc sao chép chưa thay đổi trạng thái đơn.</p></section>
+<section><h2>Khi nào nhận được phản hồi?</h2><p>Sau khi backend được kích hoạt, bot xử lý lệnh và gửi phản hồi qua hàng đợi mỗi phút. Khi có nhiều tin, thời gian có thể lâu hơn.</p><p>Chỉ người được phân quyền mới duyệt được. Đơn đã xử lý giữ nguyên quyết định khi gửi lại lệnh.</p></section>
+<script>
+document.querySelectorAll('[data-action]').forEach(button=>button.onclick=async()=>{
+  const input=document.getElementById('requestId'),status=document.getElementById('status');
+  const id=input.value.trim();
+  if(!/^[A-Za-z0-9_-]{1,100}$/.test(id)){status.textContent='Vui lòng nhập mã đơn hợp lệ.';return;}
+  const command=button.dataset.action+' '+id;
+  try{await navigator.clipboard.writeText(command);status.textContent='Đã sao chép: '+command+'. Dán và gửi cho bot.';}
+  catch(_){status.replaceChildren();const field=document.createElement('input');field.value=command;field.readOnly=true;field.setAttribute('aria-label','Lệnh gửi bot');status.append(field);field.focus();field.select();const hint=document.createElement('span');hint.textContent=' Chạm giữ lệnh để sao chép.';status.append(hint);}
+});
+</script></main></body></html>
